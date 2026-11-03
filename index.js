@@ -9,7 +9,15 @@ const weatherConditionEl = document.getElementById("weather-condition");
 const tomorrowTempEl = document.getElementById("tomorrow-temp");
 const weeklyTrendEl = document.getElementById("weekly-trend");
 
-// دالة لتحويل أرقام أكواد الطقس إلى أيقونات ونصوص معبرة
+// تحكم شاشة الافتتاح
+window.addEventListener("load", () => {
+  const introOverlay = document.getElementById("intro-overlay");
+  setTimeout(() => {
+    introOverlay.classList.add("fade-out");
+  }, 1800);
+});
+
+// دالة تحويل أكواد الطقس إلى أيقونات
 function getWeatherIcon(code) {
   if (code === 0) return '<i class="fa-solid fa-sun"></i> Clear';
   if (code >= 1 && code <= 3)
@@ -22,12 +30,11 @@ function getWeatherIcon(code) {
   return '<i class="fa-solid fa-cloud"></i> Normal';
 }
 
-// دالة رئيسية لجلب بيانات الطقس
+// دالة جلب الطقس مع LocalStorage وتفعيل الـ Spinner
 async function fetchWeather(cityName) {
-  spinnerEl.classList.remove("hidden"); // إظهار دائرة التحميل
+  spinnerEl.classList.remove("hidden");
 
   try {
-    // 1. جلب الإحداثيات والدولة
     const geoRes = await fetch(
       `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cityName)}&count=1`,
     );
@@ -41,43 +48,37 @@ async function fetchWeather(cityName) {
 
     const { latitude, longitude, name, country } = geoData.results[0];
 
-    // 2. جلب تفاصيل الطقس الحالي وتوقعات الأيام
     const weatherRes = await fetch(
       `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&daily=temperature_2m_max,temperature_2m_min&timezone=auto`,
     );
     const weatherData = await weatherRes.json();
 
-    // 3. عرض البيانات في الواجهة
     countryEl.textContent = country || "N/A";
     cityEl.textContent = name;
     tempEl.textContent = `${Math.round(weatherData.current_weather.temperature)} °C`;
     windSpeedEl.textContent = `${weatherData.current_weather.windspeed} km/h`;
 
-    // وضع الأيقونة والحالة
     weatherConditionEl.innerHTML = getWeatherIcon(
       weatherData.current_weather.weathercode,
     );
 
-    // طقس الغد
     const tomorrowMax = Math.round(weatherData.daily.temperature_2m_max[1]);
     const tomorrowMin = Math.round(weatherData.daily.temperature_2m_min[1]);
     tomorrowTempEl.textContent = `${tomorrowMax}° / ${tomorrowMin}°C`;
 
-    // نظرة عامة للأسبوع
     const weeklyMax = Math.round(weatherData.daily.temperature_2m_max[0]);
     weeklyTrendEl.textContent = `High: ${weeklyMax}°C`;
 
-    // 4. حفظ المدينة الحالية في LocalStorage
     localStorage.setItem("lastCity", name);
   } catch (error) {
     console.error(error);
     alert("حدث خطأ أثناء جلب البيانات");
   } finally {
-    spinnerEl.classList.add("hidden"); // إخفاء دائرة التحميل في كلتا الحالتين
+    spinnerEl.classList.add("hidden");
   }
 }
 
-// نظام الاقتراحات الحية أثناء الكتابة
+// الاقتراحات الحية
 cityInput.addEventListener("input", async () => {
   const query = cityInput.value.trim();
   if (query.length < 2) return;
@@ -103,7 +104,7 @@ cityInput.addEventListener("input", async () => {
   }
 });
 
-// تنفيذ البحث عند الضغط على Enter
+// الضغط على Enter للبحث
 cityInput.addEventListener("keypress", (e) => {
   if (e.key === "Enter" && cityInput.value.trim() !== "") {
     const rawValue = cityInput.value.trim();
@@ -112,7 +113,7 @@ cityInput.addEventListener("keypress", (e) => {
   }
 });
 
-// استرجاع آخر مدينة تم البحث عنها عند فتح الصفحة (LocalStorage)
+// استرجاع آخر مدينة عند بدء التشغيل
 window.addEventListener("DOMContentLoaded", () => {
   const savedCity = localStorage.getItem("lastCity");
   if (savedCity) {
@@ -120,3 +121,68 @@ window.addEventListener("DOMContentLoaded", () => {
     fetchWeather(savedCity);
   }
 });
+
+// --- أنيميشن الجزيئات المتصاعدة (Particles Canvas) ---
+const canvas = document.getElementById("particles-canvas");
+const ctx = canvas.getContext("2d");
+
+let particlesArray = [];
+const numberOfParticles = 45;
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas();
+
+class Particle {
+  constructor() {
+    this.reset();
+  }
+
+  reset() {
+    this.x = Math.random() * canvas.width;
+    this.y = canvas.height + Math.random() * 100;
+    this.size = Math.random() * 2 + 0.5;
+    this.speedY = Math.random() * 0.7 + 0.2;
+    this.speedX = (Math.random() - 0.5) * 0.3;
+    this.opacity = Math.random() * 0.5 + 0.1;
+  }
+
+  update() {
+    this.y -= this.speedY;
+    this.x += this.speedX;
+
+    if (this.y < -10) {
+      this.reset();
+    }
+  }
+
+  draw() {
+    ctx.fillStyle = `rgba(255, 255, 25, ${this.opacity})`; // تم ضبط لون خفيف
+    ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+
+function initParticles() {
+  particlesArray = [];
+  for (let i = 0; i < numberOfParticles; i++) {
+    particlesArray.push(new Particle());
+  }
+}
+
+function animateParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particlesArray.forEach((particle) => {
+    particle.update();
+    particle.draw();
+  });
+  requestAnimationFrame(animateParticles);
+}
+
+initParticles();
+animateParticles();
