@@ -1,0 +1,157 @@
+/* تم الاحتفاظ بكافة تنسيقاتك السابقة، وأضفنا تصميم الـ Spinner */
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #0d0d0d;
+  width: 100%;
+  min-height: 100vh;
+  font-family: "Courier New", Courier, monospace;
+}
+
+#card {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.8);
+  background: rgba(26, 26, 26, 0.85);
+  backdrop-filter: blur(20px);
+  padding: 30px 24px;
+  width: 90%;
+  max-width: 420px;
+  min-height: 250px;
+}
+
+#card h1 {
+  text-align: center;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #ffffff;
+  border-bottom: 2px solid #ffffff;
+  padding-bottom: 6px;
+}
+
+.card-1 {
+  width: 100%;
+}
+
+#city-input {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 16px;
+  font-family: inherit;
+  border: 1px solid #333333;
+  border-radius: 6px;
+  outline: none;
+  background: #141414;
+  color: #ffffff;
+  transition: all 0.3s ease;
+}
+
+#city-input:focus {
+  border-color: #ffffff;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+}
+
+#city-input::placeholder {
+  color: #777777;
+}
+
+.card-2 {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: #cccccc;
+}
+
+.extra-cards-container {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  margin-top: 5px;
+}
+
+.sub-card {
+  flex: 1;
+  background: #141414;
+  border: 1px solid #333333;
+  border-radius: 6px;
+  padding: 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: all 0.3s ease;
+}
+
+.sub-card:hover {
+  border-color: #ffffff;
+}
+
+.sub-card p {
+  font-size: 11px;
+  color: #777777;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.sub-card span {
+  font-size: 13px;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+/* تنسيق الـ Spinner */
+.spinner {
+  width: 30px;
+  height: 30px;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-top: 3px solid #ffffff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 5px auto;
+}
+
+.hidden {
+  display: none !important;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.app-footer {
+  width: 100%;
+  text-align: center;
+  margin-top: 10px;
+  padding-top: 12px;
+  border-top: 1px dashed #333333;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
+.app-footer p {
+  font-size: 12px;
+  color: #777777;
+}

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather app</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- مكتبة الأيقونات Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+    <div id="card">
+        <h1>Weather app</h1>
+
+        <div class="card-1">
+            <input type="text" id="city-input" placeholder="city name" list="cities-list">
+            <datalist id="cities-list"></datalist>
+        </div>
+
+        <!-- مؤشر التحميل (Spinner) مخفي افتراضياً -->
+        <div id="loading-spinner" class="spinner hidden"></div>
+
+        <div class="card-2">
+            <p>Country: <span id="country">--</span></p>
+            <p>City: <span id="city">--</span></p>
+            <p>Temp: <span id="temp">--</span></p>
+        </div>
+
+        <div class="extra-cards-container">
+            <div class="sub-card">
+                <p>Wind Speed</p>
+                <span id="wind-speed">--</span>
+            </div>
+            <div class="sub-card">
+                <p>Condition</p>
+                <span id="weather-condition">
+                    <i class="fa-solid fa-cloud"></i> --
+                </span>
+            </div>
+        </div>
+
+        <div class="extra-cards-container">
+            <div class="sub-card">
+                <p>Tomorrow (Max/Min)</p>
+                <span id="tomorrow-temp">--</span>
+            </div>
+            <div class="sub-card">
+                <p>Weekly Trend</p>
+                <span id="weekly-trend">--</span>
+            </div>
+        </div>
+
+        <footer class="app-footer">
+            <p>Designed & Built by <span>Wail</span></p>
+            <div class="social-links">
+                <a href="https://github.com/WAILBNH1" target="_blank" aria-label="GitHub">
+                    <i class="fa-brands fa-github"></i>
+                </a>
+                <a href="https://www.instagram.com/wail_bnh1/" target="_blank" aria-label="Instagram">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+                <a href="https://web.facebook.com/WAILBNH0/" target="_blank" aria-label="Facebook">
+                    <i class="fa-brands fa-facebook"></i>
+                </a>
+            </div>
+        </footer>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+
+</html>
